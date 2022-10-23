@@ -7,8 +7,8 @@
     {{count2}}
     <button @click="handleClick2">btn2</button>
   </div>
-  <div>
-    123456
+  <div :style="`color:${sumColor}`">
+    sum: {{sum}}
   </div>
 </template>
 <script>
@@ -27,7 +27,25 @@ export default {
 
   data() {
     return {
-      count2: 0
+      count2: 0,
+      sumColor: ''
+    }
+  },
+
+  computed: {
+    sum () {
+      return this.count + this.count2;
+    }
+  },
+
+  watch: {
+    sum (n, o) {
+      console.log('watch', n, o);
+      if (n % 2 === 0) {
+        this.sumColor = 'red';
+      } else {
+        this.sumColor = 'blue';
+      }
     }
   },
 
@@ -42,8 +60,12 @@ export default {
     },
   },
 
+  created () {
+    console.log('created fetch', this.count) // 0
+  },
+
   mounted() {
-    console.log(this.count) // 0
+    console.log('mounted add', this.count) // 0
   }
 }
 
